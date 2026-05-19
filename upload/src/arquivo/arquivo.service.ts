@@ -7,19 +7,18 @@ import * as fs from 'fs';
 export class ArquivoService {
   private readonly pastaUpload = './drive';
 
-  constructor(){
-    if(!fs.existsSync(this.pastaUpload)){
-      fs.mkdirSync(this.pastaUpload,{recursive:true});
+  constructor() {
+    if (!fs.existsSync(this.pastaUpload)) {
+      fs.mkdirSync(this.pastaUpload, { recursive: true });
     }
   }
-//Retorna os dados do arquivo após o upload
-  create(arquivo:Express.Multer.File) {
-
+  //Retorna os dados do arquivo após o upload
+  create(arquivo: Express.Multer.File) {
     return {
-      message:'Arquivo enviado com sucesso baumann!.',
-      filename:arquivo.filename,
-      originalmente:arquivo.originalname,
-      size:arquivo.size,
+      message: 'Arquivo enviado com sucesso!',
+      filename: arquivo.filename,
+      originalname: arquivo.originalname,
+      size: arquivo.size,
     };
   }
 
@@ -27,23 +26,23 @@ export class ArquivoService {
     try {
       const files = fs.readdirSync(this.pastaUpload);
       const fileList = files.map(
-        (filename)=>{
-          const stats = fs.statSync(`${this,this.pastaUpload}/${filename}}`);
-          return{
+        (filename) => {
+          const stats = fs.statSync(`${this.pastaUpload}/${filename}`);
+          return {
             filename,
-            size:stats.size,
-            criado:stats.birthtime,
+            size: stats.size,
+            criado: stats.birthtime,
           };
         }
       );
       return {
-        total:fileList.length,
+        total: fileList.length,
         files: fileList,
-      }
+      };
     } catch (error) {
-      throw new BadRequestException('Não foi possível listar os arquivos. Baumann')
+      throw new BadRequestException('Não foi possivel listar os arquivos.')
     }
-    }
+  }
 
   findOne(id: number) {
     return `This action returns a #${id} arquivo`;

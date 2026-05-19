@@ -22,7 +22,7 @@ export class ArquivoController {
         },
       }),
     }),
-  )  
+  )
   uploadFile(@UploadedFile() file:Express.Multer.File){
     if(!file){
       throw new BadRequestException("Nenhum arquivo enviado baumannnn.");
