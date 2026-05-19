@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateArquivoDto } from './dto/create-arquivo.dto';
 import { UpdateArquivoDto } from './dto/update-arquivo.dto';
 import * as fs from 'fs';
@@ -12,14 +12,38 @@ export class ArquivoService {
       fs.mkdirSync(this.pastaUpload,{recursive:true});
     }
   }
+//Retorna os dados do arquivo após o upload
+  create(arquivo:Express.Multer.File) {
 
-  create(createArquivoDto: CreateArquivoDto) {
-    return 'This action adds a new arquivo';
+    return {
+      message:'Arquivo enviado com sucesso baumann!.',
+      filename:arquivo.filename,
+      originalmente:arquivo.originalname,
+      size:arquivo.size,
+    };
   }
 
   findAll() {
-    return `This action returns all arquivo`;
-  }
+    try {
+      const files = fs.readdirSync(this.pastaUpload);
+      const fileList = files.map(
+        (filename)=>{
+          const stats = fs.statSync(`${this,this.pastaUpload}/${filename}}`);
+          return{
+            filename,
+            size:stats.size,
+            criado:stats.birthtime,
+          };
+        }
+      );
+      return {
+        total:fileList.length,
+        files: fileList,
+      }
+    } catch (error) {
+      throw new BadRequestException('Não foi possível listar os arquivos. Baumann')
+    }
+    }
 
   findOne(id: number) {
     return `This action returns a #${id} arquivo`;
