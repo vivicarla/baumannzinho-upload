@@ -27,7 +27,7 @@ export class ArquivoController {
     if(!file){
       throw new BadRequestException("Nenhum arquivo enviado baumannnn.");
     }
-    return 
+    return this.arquivoService.create(file);
   }
   @Get()
   findAll() {
