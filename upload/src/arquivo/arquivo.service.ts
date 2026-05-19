@@ -5,7 +5,7 @@ import * as fs from 'fs';
 
 @Injectable()
 export class ArquivoService {
-  private readonly pastaUpload = './arquivos';
+  private readonly pastaUpload = './drive';
 
   constructor(){
     if(!fs.existsSync(this.pastaUpload)){
