@@ -51,7 +51,7 @@ git clone https://github.com/seu-usuario/seu-repositorio.git
 ## 2. Entrar na pasta do projeto
 
 ```bash
-cd upload
+cd ./upload/
 ```
 
 ---
