@@ -1,0 +1,171 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white p-6">
+
+  <div class="max-w-5xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="text-center mb-12">
+
+      <div class="inline-block p-5 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl">
+
+        <h1 class="text-5xl font-black bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          Upload Center
+        </h1>
+
+        <p class="text-slate-400 mt-3 text-lg">
+          Gerencie seus arquivos com estilo
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- CARD UPLOAD -->
+    <div class="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+
+      <div class="flex flex-col gap-6">
+
+        <!-- INPUT -->
+        <label
+          class="relative border-2 border-dashed border-purple-500/40 rounded-2xl p-10 text-center cursor-pointer hover:border-pink-500 transition-all duration-300 bg-slate-900/40">
+
+          <input
+            type="file"
+            (change)="selecionarArquivo($event)"
+            class="hidden"
+          />
+
+          <div class="space-y-3">
+
+            <div class="text-6xl">
+              📁
+            </div>
+
+            <h2 class="text-2xl font-bold">
+              Arraste seu arquivo aqui
+            </h2>
+
+            <p class="text-slate-400">
+              ou clique para selecionar
+            </p>
+
+            <p class="text-sm text-slate-500">
+              JPG, PNG, TIFF • Máximo 5MB
+            </p>
+
+          </div>
+
+        </label>
+
+        <!-- BOTÃO -->
+        <button
+          (click)="enviarArquivo()"
+          [disabled]="carregando"
+          class="bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 hover:scale-[1.02] active:scale-100 transition-all duration-300 p-4 rounded-2xl font-bold text-lg shadow-xl disabled:opacity-50"
+        >
+
+          <span *ngIf="!carregando">
+            🚀 Enviar Arquivo
+          </span>
+
+          <span *ngIf="carregando">
+            Enviando...
+          </span>
+
+        </button>
+
+        <!-- MENSAGEM -->
+        <div
+          *ngIf="mensagem"
+          class="bg-slate-900/70 border border-purple-500/30 p-4 rounded-2xl text-center text-lg"
+        >
+          {{ mensagem }}
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LISTA -->
+    <div class="mt-12">
+
+      <div class="flex items-center justify-between mb-6">
+
+        <h2 class="text-3xl font-black">
+          Arquivos Enviados
+        </h2>
+
+        <div class="bg-purple-600 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+          {{ arquivos.length }} arquivos
+        </div>
+
+      </div>
+
+      <!-- EMPTY -->
+      <div
+        *ngIf="arquivos.length === 0"
+        class="bg-white/5 border border-white/10 rounded-3xl p-10 text-center text-slate-400"
+      >
+
+        <div class="text-6xl mb-4">
+          📂
+        </div>
+
+        <p class="text-xl">
+          Nenhum arquivo enviado ainda
+        </p>
+
+      </div>
+
+      <!-- FILES -->
+      <div class="grid gap-5">
+
+        <div
+          *ngFor="let arquivo of arquivos"
+          class="group bg-white/5 border border-white/10 hover:border-pink-500/40 transition-all duration-300 p-5 rounded-3xl flex items-center justify-between backdrop-blur-lg hover:scale-[1.01]"
+        >
+
+          <div class="flex items-center gap-5">
+
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-3xl shadow-xl">
+              🖼️
+            </div>
+
+            <div>
+
+              <h3 class="font-bold text-lg break-all">
+                {{ arquivo.filename }}
+              </h3>
+
+              <div class="flex gap-4 mt-1 text-sm text-slate-400">
+
+                <span>
+                  {{ arquivo.size }} bytes
+                </span>
+
+                <span>
+                  {{ arquivo.criado | date:'short' }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- DELETE -->
+          <button
+            (click)="deletar(arquivo.filename)"
+            class="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white transition-all duration-300 px-5 py-3 rounded-2xl font-bold"
+          >
+            🗑 Excluir
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
